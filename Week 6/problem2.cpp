@@ -1,39 +1,30 @@
 #include<bits/stdc++.h>
 using namespace std;
-bool dfs(int s, int d, vector<vector <int>>& graph)
+vector<bool> visited;
+vector<int> col;
+bool bipart;
+void bfs(int u,int cur,vector<vector <int>>& graph)
 {
-    if(s==d)
-    return true;
-    int n=graph.size();
-    vector<bool> visited(n,false);
-    visited[s]=true;
-    stack<int> st;
-    st.push(s);
-    while(!st.empty())
+    if(col[u]!=-1 && col[u]!=cur)
     {
-        int a=st.top();
-        st.pop();
-        cout<<a<<" ";
-        for(int x: graph[a])
-        {
-            if(x==d)
-            return true;
-            if(!visited[x])
-            {
-                visited[x]=true;
-                st.push(x);
-            }
-
-        }
+        bipart=false;
+        return;
     }
-    return false;
-
+    col[u]=cur;
+    if(visited[u])
+    return;
+    visited[u]=true;
+    for(int x: graph[u])
+    bfs(x,cur ^ 1,graph);
 }
 int main()
 {
     int n,m;
     cin>>n>>m;
     vector<vector <int>> graph(n);
+    visited=vector<bool> (n,0);
+    col=vector<int> (n,-1);
+    bipart=true;
     int i,u,v;
     for(i=0;i<m;i++)
     {
@@ -41,10 +32,13 @@ int main()
         graph[u].push_back(v);
         graph[v].push_back(u);
     }
-    int src,dest;
-    cin>>src>>dest;
-    if(dfs(src,dest,graph))
-    cout<<"exist";
+    for(i=0;i<n;i++)
+    {
+        if(!visited[i])
+        bfs(i,0,graph);
+    }
+    if(bipart)
+    cout<<"true";
     else
-    cout<<"not exist";
+    cout<<"false";
 }
