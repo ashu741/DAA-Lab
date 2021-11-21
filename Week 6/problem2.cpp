@@ -35,7 +35,7 @@ int main()
     for(i=0;i<n;i++)
     {
         if(!visited[i])
-        bfs(i,0,graph);
+         bfs(i,0,graph);
     }
     if(bipart)
     cout<<"true";
