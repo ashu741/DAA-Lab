@@ -31,7 +31,7 @@ int main()
         {
             count++;
             res.push_back(i);
-            st+=t;
+            st+=t+1;
             cur_end+=t;
         }
 
